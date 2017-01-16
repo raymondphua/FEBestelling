@@ -18,9 +18,17 @@ public class Order {
     private Customer customer;
     private List<Product> orderedProducts;
     private Address deliveryAddress;
-    private Status status;
+    private String status;
 
     public Order() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Customer getCustomer() {
@@ -61,14 +69,6 @@ public class Order {
 
     public void setShoppingFee(double shoppingFee) {
         this.shoppingFee = shoppingFee;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public double getTotalPrice() {
