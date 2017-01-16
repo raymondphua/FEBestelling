@@ -38,4 +38,13 @@ public class TestData {
 
         return orderArrayList;
     }
+
+    public static String[] getStatus() {
+        String[] strings = new String[2];
+        strings[0] = "besteld";
+        strings[1] = "afgeleverd";
+
+        return strings;
+    }
+
 }
