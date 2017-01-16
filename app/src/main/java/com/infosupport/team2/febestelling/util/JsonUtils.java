@@ -15,15 +15,13 @@ import java.util.List;
  */
 
 public class JsonUtils {
-    public static List<Order> parseOrderResponse(String jsonStr){
-        try
-        {
+    public static List<Order> parseOrderResponse(String jsonStr) {
+        try {
             JSONArray jsonArray = new JSONArray(jsonStr);
 
             ArrayList<Order> orders = new ArrayList<Order>();
 
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject result = jsonArray.getJSONObject(i);
                 Order order = new Order();
                 order.setId(result.getString("id"));
@@ -33,12 +31,24 @@ public class JsonUtils {
             }
 
             return orders;
-        }
-        catch(JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<String> parseStatusResponse(String jsonstr) {
+        List<String> statuses = new ArrayList<String>();
+        try {
+            JSONArray jsonArray = new JSONArray(jsonstr);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                statuses.add(jsonArray.getString(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return statuses;
     }
 
     private static Customer parseCustomerObject(JSONObject customerObject) throws JSONException {

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -29,9 +28,9 @@ import java.util.List;
 public class OrderListActivity extends ListActivity {
 
     ProgressDialog progressDialog;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "OrderListActivity";
     ListView listView;
-    private View showDialogView;
+    private String ORDER_URL = "http://10.0.2.2:11130/orderservice/orders?status=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,7 @@ public class OrderListActivity extends ListActivity {
         String status = intent.getStringExtra("status");
         System.out.println("Status: " + status);
 
-        orderRequest("http://10.0.2.2:11130/orderservice/orders?status=" + status);
-
+        orderRequest(ORDER_URL + status);
     }
 
     @Override
@@ -64,7 +62,6 @@ public class OrderListActivity extends ListActivity {
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
                         LayoutInflater li = LayoutInflater.from(OrderListActivity.this);
-                        showDialogView = li.inflate(R.layout.show_dialog, null);
 
                         listView = (ListView) findViewById(android.R.id.list);
 
