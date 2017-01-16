@@ -16,6 +16,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
+import com.infosupport.team2.febestelling.resource.TestData;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
 
@@ -48,7 +49,7 @@ public class OrderListActivity extends ListActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         progressDialog.dismiss();
     }
@@ -67,17 +68,14 @@ public class OrderListActivity extends ListActivity {
 
                         listView = (ListView) findViewById(android.R.id.list);
 
-        ListOrderAdapter listOrderAdapter = new ListOrderAdapter(this, R.layout.order_item, TestData.getData());
-        listView.setAdapter(listOrderAdapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent1 = new Intent(view.getContext(), OrderDetailActivity.class);
-                startActivity(intent1);
-            }
-        });
+                                Intent intent1 = new Intent(view.getContext(), OrderDetailActivity.class);
+                                startActivity(intent1);
+                            }
+                        });
                         List<Order> orders = JsonUtils.parseOrderResponse(response.toString());
                         ListOrderAdapter listOrderAdapter = new ListOrderAdapter(getApplicationContext(), R.layout.order_item, orders);
                         listView.setAdapter(listOrderAdapter);
