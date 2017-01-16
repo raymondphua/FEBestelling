@@ -20,10 +20,6 @@ import static android.R.attr.id;
 
 public class ListOrderAdapter extends ArrayAdapter<Order> {
 
-    public ListOrderAdapter(Context context, int resource) {
-        super(context, resource);
-    }
-
     public ListOrderAdapter(Context context, int resource, List<Order> objects) {
         super(context, resource, objects);
     }

@@ -3,6 +3,8 @@ package com.infosupport.team2.febestelling;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.resource.TestData;
@@ -31,5 +33,14 @@ public class OrderListActivity extends ListActivity {
 
         ListOrderAdapter listOrderAdapter = new ListOrderAdapter(this, R.layout.order_item, TestData.getData());
         listView.setAdapter(listOrderAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent1 = new Intent(view.getContext(), OrderDetailActivity.class);
+                startActivity(intent1);
+            }
+        });
     }
 }
