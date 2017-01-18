@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -23,9 +26,9 @@ import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
 import org.json.JSONArray;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
+import java.util.Map;
 
 /**
  * Created by paisanrietbroek on 16/01/2017.
@@ -147,7 +150,16 @@ public class OrderListActivity extends ListActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 progressDialog.hide();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("Authorization","Bearer " + AppSingleton.getInstance(getApplicationContext()).token);
+
+                return map;
+            }
+
+        };
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
     }

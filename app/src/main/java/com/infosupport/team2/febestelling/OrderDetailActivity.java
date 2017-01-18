@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.infosupport.team2.febestelling.adapter.ListProductAdapter;
 import com.infosupport.team2.febestelling.model.Product;
@@ -31,9 +28,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
 /**
@@ -43,8 +37,8 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 public class OrderDetailActivity extends Activity {
 
     private static final String TAG = "OrderDetailActivity";
-    private static final String PRODUCT_URL =   "http://10.0.3.2:11130/orderservice/orders/";
-    private static final String ORDER_URL =     "http://10.0.3.2:11130/orderprocessservice/orders/";
+    private static final String PRODUCT_URL =   "http://10.0.2.2:11130/orderservice/orders/";
+    private static final String ORDER_URL =     "http://10.0.2.2:11130/orderprocessservice/orders/";
 
     private static final String PACK_URL = "";
 
@@ -104,7 +98,15 @@ public class OrderDetailActivity extends Activity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
-    });
+    }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("Authorization","Bearer " + AppSingleton.getInstance(getApplicationContext()).token);
+
+                return map;
+            }
+        };
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(productListRequest, REQUEST_TAG);
     }
@@ -139,6 +141,14 @@ public class OrderDetailActivity extends Activity {
             @Override
             public String getBodyContentType() {
                 return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("Authorization","Bearer " + AppSingleton.getInstance(getApplicationContext()).token);
+
+                return map;
             }
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
