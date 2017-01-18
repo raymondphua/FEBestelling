@@ -18,6 +18,7 @@ public class AppSingleton {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mContext;
+    public String token; //Temp till authentication in sprint 3
 
     private AppSingleton(Context context){
         mContext = context;
