@@ -4,7 +4,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,23 +13,19 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
-import com.infosupport.team2.febestelling.model.Product;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
-
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.id.empty;
+import java.util.concurrent.RunnableFuture;
 
 /**
  * Created by paisanrietbroek on 16/01/2017.
@@ -47,6 +42,7 @@ public class OrderListActivity extends ListActivity {
     private String ORDER_URL = "http://10.0.3.2:11130/orderservice/orders?status=";
     ListOrderAdapter listOrderAdapter;
     private String status;
+    List<Order> orders = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +61,12 @@ public class OrderListActivity extends ListActivity {
         statusLabel = (TextView) findViewById(R.id.statusLabel);
         statusState = (TextView) findViewById(R.id.statusStatus);
         statusState.setText(status);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         orderRequest(ORDER_URL + status);
     }
 
@@ -93,6 +89,7 @@ public class OrderListActivity extends ListActivity {
 
                         listView = (ListView) findViewById(android.R.id.list);
 
+
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,12 +101,21 @@ public class OrderListActivity extends ListActivity {
                                 intent1.putExtra("customerName", item.getCustomer().getName());
                                 intent1.putExtra("status", status);
                                 startActivity(intent1);
+
                             }
                         });
 
-                        final List<Order> orders = JsonUtils.parseOrderResponse(response.toString());
+                        orders = JsonUtils.parseOrderResponse(response.toString());
                         listOrderAdapter = new ListOrderAdapter(getApplicationContext(), R.layout.order_item, orders);
                         listView.setAdapter(listOrderAdapter);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listOrderAdapter.refreshEvents(orders);
+                            }
+                        });
+
+
 
                         // filtering
                         listView.setTextFilterEnabled(true);
