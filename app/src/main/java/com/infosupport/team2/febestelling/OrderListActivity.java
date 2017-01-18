@@ -4,7 +4,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,7 +24,7 @@ import com.infosupport.team2.febestelling.model.Order;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
 import org.json.JSONArray;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +103,6 @@ public class OrderListActivity extends ListActivity {
                                 intent1.putExtra("customerName", item.getCustomer().getName());
                                 intent1.putExtra("status", status);
                                 startActivity(intent1);
-
                             }
                         });
 
@@ -117,8 +115,6 @@ public class OrderListActivity extends ListActivity {
                                 listOrderAdapter.refreshEvents(orders);
                             }
                         });
-
-
 
                         // filtering
                         listView.setTextFilterEnabled(true);

@@ -37,8 +37,7 @@ import java.util.Map;
 public class OrderDetailActivity extends Activity {
 
     private static final String TAG = "OrderDetailActivity";
-    private static final String PRODUCT_URL =   "http://10.0.2.2:11130/orderservice/orders/";
-    private static final String ORDER_URL =     "http://10.0.2.2:11130/orderprocessservice/orders/";
+    private static final String ORDER_URL =   "http://10.0.3.2:11130/orderservice/orders/";
 
     private static final String PACK_URL = "";
 
@@ -61,7 +60,7 @@ public class OrderDetailActivity extends Activity {
         Intent intent = getIntent();
         orderId.setText(intent.getStringExtra("orderId"));
         customerName.setText(intent.getStringExtra("customerName"));
-        setProductList(PRODUCT_URL + orderId.getText() + "/products");
+        setProductList(ORDER_URL + orderId.getText() + "/products");
 
         String status = getIntent().getStringExtra("status");
 
@@ -153,7 +152,5 @@ public class OrderDetailActivity extends Activity {
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
-
-
 
 }
