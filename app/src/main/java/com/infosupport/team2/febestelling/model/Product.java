@@ -1,11 +1,13 @@
 package com.infosupport.team2.febestelling.model;
 
+import java.io.Serializable;
+
 /**
  * Created by paisanrietbroek on 16/01/2017.
  */
 
 
-public class Product {
+public class Product implements Serializable {
 
     private String id;
     private Long supplierId;
@@ -17,8 +19,17 @@ public class Product {
 //    private LocalDate availableTo;
     private String supplierProductId;
     private String cName;
+    private int quantity;
 
     public Product() {
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getcName() {

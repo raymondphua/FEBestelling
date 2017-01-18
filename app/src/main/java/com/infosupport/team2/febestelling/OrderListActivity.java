@@ -4,10 +4,14 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -16,13 +20,16 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
-import com.infosupport.team2.febestelling.resource.TestData;
+import com.infosupport.team2.febestelling.model.Product;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.id.empty;
 
 /**
  * Created by paisanrietbroek on 16/01/2017.
@@ -33,12 +40,16 @@ public class OrderListActivity extends ListActivity {
     ProgressDialog progressDialog;
     private static final String TAG = "OrderListActivity";
     ListView listView;
-    private String ORDER_URL = "http://10.0.2.2:11130/orderservice/orders?status=";
+    EditText searchField;
+    private String ORDER_URL = "http://10.0.3.2:11130/orderservice/orders?status=";
+    ListOrderAdapter listOrderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_list);
+
+        searchField = (EditText) findViewById(R.id.search_field);
         progressDialog = new ProgressDialog(this);
 
         Intent intent = getIntent();
@@ -46,6 +57,7 @@ public class OrderListActivity extends ListActivity {
         System.out.println("Status: " + status);
 
         orderRequest(ORDER_URL + status);
+
     }
 
     @Override
@@ -53,7 +65,6 @@ public class OrderListActivity extends ListActivity {
         super.onDestroy();
         progressDialog.dismiss();
     }
-
     public void orderRequest(String url) {
         String REQUEST_TAG = "com.infosupport.team2.orderlistRequest";
         progressDialog.setMessage("Laden...");
@@ -73,12 +84,40 @@ public class OrderListActivity extends ListActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                                 Intent intent1 = new Intent(view.getContext(), OrderDetailActivity.class);
+                                // TODO: geef order nummer mee aan nieuwe activity om de producten te kunnen ophalen
+                                Order item = (Order) parent.getAdapter().getItem(position);
+                                intent1.putExtra("orderId", item.getId());
+                                intent1.putExtra("customerName", item.getCustomer().getName());
+
                                 startActivity(intent1);
                             }
                         });
-                        List<Order> orders = JsonUtils.parseOrderResponse(response.toString());
-                        ListOrderAdapter listOrderAdapter = new ListOrderAdapter(getApplicationContext(), R.layout.order_item, orders);
+
+                        final List<Order> orders = JsonUtils.parseOrderResponse(response.toString());
+                        listOrderAdapter = new ListOrderAdapter(getApplicationContext(), R.layout.order_item, orders);
                         listView.setAdapter(listOrderAdapter);
+
+                        // filtering
+                        listView.setTextFilterEnabled(true);
+                        searchField.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                if (count < before) {
+                                    listOrderAdapter.resetData();
+                                }
+                                listOrderAdapter.getFilter().filter(s.toString());
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
 
                         progressDialog.hide();
                     }
@@ -93,3 +132,4 @@ public class OrderListActivity extends ListActivity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
     }
 }
+

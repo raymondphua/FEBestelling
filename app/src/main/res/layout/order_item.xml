@@ -7,12 +7,16 @@
         android:text="order nummer"
         android:layout_width="108dp"
         android:layout_height="wrap_content"
-        android:id="@+id/order_id" />
+        android:id="@+id/order_id"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"/>
 
     <TextView
         android:text="name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/customer_name" />
+        android:id="@+id/customer_name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"/>
 
 </LinearLayout>

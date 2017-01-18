@@ -2,6 +2,7 @@ package com.infosupport.team2.febestelling.model;
 
 import android.location.Address;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
@@ -10,7 +11,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
  * Created by paisanrietbroek on 16/01/2017.
  */
 
-public class Order {
+public class Order implements Serializable{
 
     private String id;
     private double shoppingFee;

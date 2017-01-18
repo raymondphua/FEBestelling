@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     ProgressDialog progressDialog;
     private static final String TAG = "MainActivity";
     ListView listView;
-    private String ORDER_URL = "http://10.0.2.2:11130/orderservice/statuses";
+    private String ORDER_URL = "http://10.0.3.2:11130/orderservice/statuses";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,11 @@ public class MainActivity extends Activity {
         statusRequest(ORDER_URL);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
+    }
 
     public void statusRequest(String url) {
         String REQUEST_TAG = "com.infosupport.team2.statusRequestList";
