@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -37,12 +38,15 @@ import static android.R.id.empty;
 
 public class OrderListActivity extends ListActivity {
 
+    TextView statusLabel, statusState;
+
     ProgressDialog progressDialog;
     private static final String TAG = "OrderListActivity";
     ListView listView;
     EditText searchField;
     private String ORDER_URL = "http://10.0.3.2:11130/orderservice/orders?status=";
     ListOrderAdapter listOrderAdapter;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +57,21 @@ public class OrderListActivity extends ListActivity {
         progressDialog = new ProgressDialog(this);
 
         Intent intent = getIntent();
-        String status = intent.getStringExtra("status");
+        status = intent.getStringExtra("status");
         System.out.println("Status: " + status);
 
-        orderRequest(ORDER_URL + status);
+//        orderRequest(ORDER_URL + status);
 
+        statusLabel = (TextView) findViewById(R.id.statusLabel);
+        statusState = (TextView) findViewById(R.id.statusStatus);
+        statusState.setText(status);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        orderRequest(ORDER_URL + status);
     }
 
     @Override
@@ -88,7 +102,7 @@ public class OrderListActivity extends ListActivity {
                                 Order item = (Order) parent.getAdapter().getItem(position);
                                 intent1.putExtra("orderId", item.getId());
                                 intent1.putExtra("customerName", item.getCustomer().getName());
-
+                                intent1.putExtra("status", status);
                                 startActivity(intent1);
                             }
                         });

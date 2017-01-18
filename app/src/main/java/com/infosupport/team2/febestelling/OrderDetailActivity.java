@@ -25,11 +25,13 @@ import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
@@ -56,9 +58,10 @@ public class OrderDetailActivity extends Activity {
         setContentView(R.layout.order_details);
 
         listView = (ListView)findViewById(R.id.order_details_listview_products);
-        packBtn = (Button) findViewById(R.id.order_details_btn_ingepakt);
         orderId = (TextView) findViewById(R.id.order_details_order_id);
         customerName = (TextView) findViewById(R.id.order_details_customer_name);
+        packBtn = (Button) findViewById(R.id.order_details_btn_ingepakt);
+
 
         // TODO: order nummer opvangen en op basis hiervan de producten ervan ophalen
         Intent intent = getIntent();
@@ -66,13 +69,24 @@ public class OrderDetailActivity extends Activity {
         customerName.setText(intent.getStringExtra("customerName"));
         setProductList(PRODUCT_URL + orderId.getText() + "/products");
 
-        packBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeStatus((String) orderId.getText());
-            }
-        });
-    }
+        String status = getIntent().getStringExtra("status");
+
+        if (status.equals("AFGELEVERD")) {
+            packBtn.setVisibility(View.GONE);
+        }
+            packBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        changeStatus((String) orderId.getText());
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
 
     public void setProductList(String url) {
         String REQUEST_TAG = "com.infosupport.team2.productlistRequest";
@@ -95,15 +109,19 @@ public class OrderDetailActivity extends Activity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(productListRequest, REQUEST_TAG);
     }
 
-    public void changeStatus(String orderId) {
+    public void changeStatus(String orderId) throws JSONException {
         String url = ORDER_URL + orderId;
         String REQUEST_TAG = "com.infosupport.team2.putRequest";
 
-        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url,
-                new Response.Listener<JSONObject>() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status", "AFGELEVERD");
+        final String requestBody = jsonObject.toString();
+
+        StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Response", response.toString());
+                    public void onResponse(String response) {
+                        Log.d("Response", response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -115,7 +133,7 @@ public class OrderDetailActivity extends Activity {
         {
             @Override
             public byte[] getBody() {
-                return super.getBody();
+                return requestBody.getBytes();
             }
 
             @Override
