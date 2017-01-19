@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="item_color">#f1ebd3</color>
+    <color name="background_color">#47848f</color>
+    <color name="text_color">#0a1c29</color>
+    <color name="searchbar">#96c0b5</color>
+
+
+    <color name="kantiPurple">#aab1e4ff</color>
+
 </resources>

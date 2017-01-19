@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@color/background_color"
+    android:padding="4dp">
+
+    <Button
+        android:text="@string/packBtnTxt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/order_details_btn_ingepakt"
+        android:textSize="24sp"
+        android:textColor="@color/text_color"
+        android:gravity="bottom|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/searchbar"
+        android:foregroundGravity="center_vertical"
+        android:paddingBottom="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:background="@color/searchbar"
+        android:padding="8dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:text="@string/customer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_details_customer_name"
+            android:layout_weight="1"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:text="@string/orderIdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderIdLabel"
+            android:textSize="14sp"
+            android:textColor="@color/text_color"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:text="@string/order_id"
+            android:layout_width="179dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_details_order_id"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@+id/order_details_listview_products"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topBar"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/order_details_btn_ingepakt"
+        android:divider="@color/background_color"
+        android:dividerHeight="6sp"/>
+
+</RelativeLayout>
+
+

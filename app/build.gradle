@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.infosupport.team2.febestelling"
-        minSdkVersion 22
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.mcxiaoke.volley:library:1.0.19'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
