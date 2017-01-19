@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
                             Button button = new Button(MainActivity.this);
                             button.setHeight(300);
                             button.setText(i);
-                            button.setTextSize(50);
+                            button.setTextSize(40);
 
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override

@@ -11,4 +11,5 @@
     <string name="customer_name">customer name</string>
     <string name="order_id">order id</string>
     <string name="packBtnTxt">Ingepakt</string>
+    <string name="orderLabel">Order:</string>
 </resources>

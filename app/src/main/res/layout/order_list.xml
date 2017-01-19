@@ -8,11 +8,12 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="81dp"
+        android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/search_field"
-        android:textSize="36sp"
+        android:textSize="24sp"
+        android:padding="8dp"
         android:textColor="@color/text_color"
         android:background="@color/searchbar"
         android:hint="@string/zoek_op_bestelnummer"
