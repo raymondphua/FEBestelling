@@ -59,12 +59,12 @@ public class OrderListActivity extends ListActivity {
         System.out.println("Status: " + status);
 
         setTitle("Kantilever - Status: " + status);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         orderRequest(ORDER_URL + status);
     }
 
@@ -93,7 +93,7 @@ public class OrderListActivity extends ListActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                                 Intent intent1 = new Intent(view.getContext(), OrderDetailActivity.class);
-                                // TODO: geef order nummer mee aan nieuwe activity om de producten te kunnen ophalen
+
                                 Order item = (Order) parent.getAdapter().getItem(position);
                                 intent1.putExtra("orderId", item.getId());
                                 intent1.putExtra("customerName", item.getCustomer().getName());

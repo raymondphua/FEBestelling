@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/item_color">
+    android:background="@color/item_color"
+    android:minHeight="80dp"
+    android:weightSum="1"
+    android:padding="8dp">
 
-    <TextView
-        android:text="order nummer"
-        android:layout_width="108dp"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/order_id"
-        android:textColor="@color/text_color"
-        android:textSize="36sp"/>
+        android:layout_weight="0.06"
+        android:weightSum="1">
+
+        <TextView
+            android:text="order nummer"
+            android:layout_width="212dp"
+            android:layout_height="match_parent"
+            android:id="@+id/order_id"
+            android:textColor="@color/text_color"
+            android:textSize="36sp" />
+
+        <TextView
+            android:text="order datum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/orderDatum"
+            android:textSize="26dp"
+            android:textColor="@color/text_color"
+            android:textAlignment="textEnd" />
+
+
+    </LinearLayout>
 
     <TextView
         android:text="name"
@@ -18,6 +40,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/customer_name"
         android:textColor="@color/text_color"
-        android:textSize="36sp"/>
+        android:textSize="26sp"
+        android:layout_weight="0.06" />
 
 </LinearLayout>

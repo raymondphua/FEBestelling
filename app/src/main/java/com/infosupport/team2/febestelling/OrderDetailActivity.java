@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -72,7 +73,6 @@ public class OrderDetailActivity extends Activity {
                 public void onClick(View v) {
                     try {
                         changeStatus((String) orderId.getText());
-                        finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -111,7 +111,7 @@ public class OrderDetailActivity extends Activity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(productListRequest, REQUEST_TAG);
     }
 
-    public void changeStatus(String orderId) throws JSONException {
+    public void changeStatus(final String orderId) throws JSONException {
         String url = ORDER_URL + orderId;
         String REQUEST_TAG = "com.infosupport.team2.putRequest";
 
@@ -124,6 +124,8 @@ public class OrderDetailActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
+                        Toast.makeText(OrderDetailActivity.this, "ORDER " + orderId + " ingepakt", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {

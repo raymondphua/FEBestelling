@@ -14,6 +14,7 @@ import com.infosupport.team2.febestelling.OrderListActivity;
 import com.infosupport.team2.febestelling.R;
 import com.infosupport.team2.febestelling.model.Order;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,12 +65,17 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
         if (item != null) {
             TextView orderId = (TextView) view.findViewById(R.id.order_id);
             TextView customerName = (TextView) view.findViewById(R.id.customer_name);
+            TextView orderDate = (TextView) view.findViewById(R.id.orderDatum);
 
             if (orderId != null) {
                 orderId.setText(item.getId().toString());
             }
             if (customerName != null) {
                 customerName.setText(item.getCustomer().getName());
+            }
+
+            if (orderDate != null) {
+                orderDate.setText((CharSequence) item.getDate());
             }
         }
 
@@ -143,6 +149,8 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
     public void refreshEvents(List<Order> orders) {
         this.orderList.clear();
         this.orderList.addAll(orders);
+        File cacheDir = getContext().getCacheDir();
+        cacheDir.delete();
         notifyDataSetChanged();
     }
 
