@@ -1,18 +1,31 @@
 package com.infosupport.team2.febestelling;
 
+import android.app.ActionBar;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
+import com.infosupport.team2.febestelling.resource.TestData;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -34,8 +47,8 @@ public class MainActivity extends Activity {
     ProgressDialog progressDialog;
     private static final String TAG = "MainActivity";
     ListView listView;
-    private String ORDER_URL = "http://10.0.2.2:11130/orderservice/statuses";
-    private String AUTHENTICATION_URL = "http://10.0.2.2:11150/oauth/token?grant_type=password&username=pieter@hotmail.com&password=henkie&client_id=kantilever&client_secret=kantiSecret";
+    private String ORDER_URL = "http://10.0.3.2:11130/orderservice/statuses";
+    private String AUTHENTICATION_URL = "http://10.0.3.2:11150/oauth/token?grant_type=password&username=pieter@hotmail.com&password=henkie&client_id=kantilever&client_secret=kantiSecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +129,9 @@ public class MainActivity extends Activity {
                         for (final String i: statuses) {
 
                             Button button = new Button(MainActivity.this);
+                            button.setHeight(300);
                             button.setText(i);
+                            button.setTextSize(40);
 
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override

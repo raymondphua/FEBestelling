@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,8 +38,7 @@ import java.util.Map;
 public class OrderDetailActivity extends Activity {
 
     private static final String TAG = "OrderDetailActivity";
-    private static final String PRODUCT_URL =   "http://10.0.2.2:11130/orderservice/orders/";
-    private static final String ORDER_URL =     "http://10.0.2.2:11130/orderprocessservice/orders/";
+    private static final String ORDER_URL =   "http://10.0.3.2:11130/orderservice/orders/";
 
     private static final String PACK_URL = "";
 
@@ -61,7 +61,7 @@ public class OrderDetailActivity extends Activity {
         Intent intent = getIntent();
         orderId.setText(intent.getStringExtra("orderId"));
         customerName.setText(intent.getStringExtra("customerName"));
-        setProductList(PRODUCT_URL + orderId.getText() + "/products");
+        setProductList(ORDER_URL + orderId.getText() + "/products");
 
         String status = getIntent().getStringExtra("status");
 
@@ -73,7 +73,6 @@ public class OrderDetailActivity extends Activity {
                 public void onClick(View v) {
                     try {
                         changeStatus((String) orderId.getText());
-                        finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -89,6 +88,7 @@ public class OrderDetailActivity extends Activity {
             @Override
             public void onResponse(JSONArray response) {
                 List<Product> products = JsonUtils.parseProductsResponse(response.toString());
+
                 ListProductAdapter listProductAdapter =
                         new ListProductAdapter(getApplicationContext(), R.layout.product_item, products);
                 listView.setAdapter(listProductAdapter);
@@ -111,7 +111,7 @@ public class OrderDetailActivity extends Activity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(productListRequest, REQUEST_TAG);
     }
 
-    public void changeStatus(String orderId) throws JSONException {
+    public void changeStatus(final String orderId) throws JSONException {
         String url = ORDER_URL + orderId;
         String REQUEST_TAG = "com.infosupport.team2.putRequest";
 
@@ -124,6 +124,8 @@ public class OrderDetailActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
+                        Toast.makeText(OrderDetailActivity.this, "ORDER " + orderId + " ingepakt", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {

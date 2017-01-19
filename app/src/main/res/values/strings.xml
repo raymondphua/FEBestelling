@@ -5,4 +5,11 @@
     <string name="zoek_op_bestelnummer">Zoek op bestelnummer...</string>
     <string name="statusLabel">Status: </string>
     <string name="status_state">Status state</string>
+    <string name="aantalLabel">Aantal:</string>
+    <string name="packBtn">Ingepakt</string>
+    <string name="orderIdLabel">Order id:</string>
+    <string name="customer_name">customer name</string>
+    <string name="order_id">order id</string>
+    <string name="packBtnTxt">Ingepakt</string>
+    <string name="orderLabel">Order:</string>
 </resources>

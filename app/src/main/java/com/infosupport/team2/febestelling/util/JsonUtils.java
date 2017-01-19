@@ -29,6 +29,7 @@ public class JsonUtils {
                 Order order = new Order();
                 order.setId(result.getString("id"));
                 order.setCustomer(parseCustomerObject(result.getJSONObject("customer")));
+                order.setDate(result.getString("orderDate"));
 
                 orders.add(order);
             }

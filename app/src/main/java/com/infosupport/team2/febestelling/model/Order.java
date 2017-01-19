@@ -3,6 +3,7 @@ package com.infosupport.team2.febestelling.model;
 import android.location.Address;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
@@ -20,8 +21,17 @@ public class Order implements Serializable{
     private List<Product> orderedProducts;
     private Address deliveryAddress;
     private String status;
+    private String date;
 
     public Order() {
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getStatus() {

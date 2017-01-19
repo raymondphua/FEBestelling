@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,9 +24,8 @@ import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
-
 import org.json.JSONArray;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,13 +42,16 @@ public class OrderListActivity extends ListActivity {
     private static final String TAG = "OrderListActivity";
     ListView listView;
     EditText searchField;
-    private String ORDER_URL = "http://10.0.2.2:11130/orderservice/orders?status=";
+    private String ORDER_URL = "http://10.0.3.2:11130/orderservice/orders?status=";
     ListOrderAdapter listOrderAdapter;
     private String status;
+    List<Order> orders = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         setContentView(R.layout.order_list);
 
         searchField = (EditText) findViewById(R.id.search_field);
@@ -58,11 +61,7 @@ public class OrderListActivity extends ListActivity {
         status = intent.getStringExtra("status");
         System.out.println("Status: " + status);
 
-//        orderRequest(ORDER_URL + status);
-
-        statusLabel = (TextView) findViewById(R.id.statusLabel);
-        statusState = (TextView) findViewById(R.id.statusStatus);
-        statusState.setText(status);
+        setTitle("Kantilever - Status: " + status);
 
     }
 
@@ -91,12 +90,13 @@ public class OrderListActivity extends ListActivity {
 
                         listView = (ListView) findViewById(android.R.id.list);
 
+
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                                 Intent intent1 = new Intent(view.getContext(), OrderDetailActivity.class);
-                                // TODO: geef order nummer mee aan nieuwe activity om de producten te kunnen ophalen
+
                                 Order item = (Order) parent.getAdapter().getItem(position);
                                 intent1.putExtra("orderId", item.getId());
                                 intent1.putExtra("customerName", item.getCustomer().getName());
@@ -105,9 +105,15 @@ public class OrderListActivity extends ListActivity {
                             }
                         });
 
-                        final List<Order> orders = JsonUtils.parseOrderResponse(response.toString());
+                        orders = JsonUtils.parseOrderResponse(response.toString());
                         listOrderAdapter = new ListOrderAdapter(getApplicationContext(), R.layout.order_item, orders);
                         listView.setAdapter(listOrderAdapter);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listOrderAdapter.refreshEvents(orders);
+                            }
+                        });
 
                         // filtering
                         listView.setTextFilterEnabled(true);
