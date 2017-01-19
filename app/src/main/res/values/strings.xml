@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FEBestelling</string>
+    <string name="radio_btn_besteld_txt">besteld</string>
+    <string name="radio_btn_afgeleverd_txt">afgeleverd</string>
+    <string name="zoek_op_bestelnummer">Zoek op bestelnummer...</string>
+    <string name="statusLabel">Status: </string>
+    <string name="status_state">Status state</string>
 </resources>

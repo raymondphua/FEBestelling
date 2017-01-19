@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="94dp"
+        android:id="@+id/product_details_image"
+        android:src="@mipmap/ic_launcher"
+        android:layout_weight="0.39" />
+
+    <TextView
+        android:text="Name"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_details_product_name"
+        android:layout_weight="0.61"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="Amount"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_details_amount"
+        android:textSize="24sp"
+        android:layout_weight="0.18" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_details_checkbox"
+        android:textSize="36sp"
+        android:layout_weight="0.07" />
+</LinearLayout>
