@@ -88,6 +88,7 @@ public class OrderDetailActivity extends Activity {
             @Override
             public void onResponse(JSONArray response) {
                 List<Product> products = JsonUtils.parseProductsResponse(response.toString());
+
                 ListProductAdapter listProductAdapter =
                         new ListProductAdapter(getApplicationContext(), R.layout.product_item, products);
                 listView.setAdapter(listProductAdapter);

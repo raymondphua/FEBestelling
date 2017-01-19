@@ -58,11 +58,7 @@ public class OrderListActivity extends ListActivity {
         status = intent.getStringExtra("status");
         System.out.println("Status: " + status);
 
-//        orderRequest(ORDER_URL + status);
-
-        statusLabel = (TextView) findViewById(R.id.statusLabel);
-        statusState = (TextView) findViewById(R.id.statusStatus);
-        statusState.setText(status);
+        setTitle("Kantilever - Status: " + status);
     }
 
     @Override

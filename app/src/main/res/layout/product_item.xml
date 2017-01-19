@@ -14,7 +14,7 @@
 
     <TextView
         android:text="Name"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/text_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/product_details_product_name"
@@ -23,7 +23,7 @@
 
     <TextView
         android:text="Amount"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/text_color"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:id="@+id/product_details_amount"

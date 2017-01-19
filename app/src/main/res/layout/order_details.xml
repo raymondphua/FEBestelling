@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/order_details_order_id"
         android:layout_weight="0.07"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/text_color"
         android:textSize="24sp"/>
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/order_details_customer_name"
         android:layout_weight="0.07"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/text_color"
         android:textSize="24sp"/>
 
     <ListView
@@ -34,5 +34,5 @@
         android:id="@+id/order_details_btn_ingepakt"
         android:layout_weight="0.07"
         android:textSize="24sp"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/text_color"/>
 </LinearLayout>

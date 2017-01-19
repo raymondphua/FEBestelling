@@ -1,5 +1,6 @@
 package com.infosupport.team2.febestelling;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -127,7 +129,9 @@ public class MainActivity extends Activity {
                         for (final String i: statuses) {
 
                             Button button = new Button(MainActivity.this);
+                            button.setHeight(300);
                             button.setText(i);
+                            button.setTextSize(50);
 
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override
