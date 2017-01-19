@@ -14,9 +14,12 @@ import com.infosupport.team2.febestelling.OrderListActivity;
 import com.infosupport.team2.febestelling.R;
 import com.infosupport.team2.febestelling.model.Order;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.R.attr.filter;
 import static android.R.attr.focusable;
@@ -37,6 +40,15 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
         this.origOrderList = new ArrayList<Order>(objects);
     }
 
+    public void setData(List<Order> objects) {
+        this.orderList = new ArrayList<Order>(objects);
+        this.origOrderList = new ArrayList<Order>(objects);
+    }
+
+    public ListOrderAdapter(Context context, int resource) {
+        super(context, resource);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -53,12 +65,17 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
         if (item != null) {
             TextView orderId = (TextView) view.findViewById(R.id.order_id);
             TextView customerName = (TextView) view.findViewById(R.id.customer_name);
+            TextView orderDate = (TextView) view.findViewById(R.id.orderDatum);
 
             if (orderId != null) {
                 orderId.setText(item.getId().toString());
             }
             if (customerName != null) {
                 customerName.setText(item.getCustomer().getName());
+            }
+
+            if (orderDate != null) {
+                orderDate.setText((CharSequence) item.getDate());
             }
         }
 
@@ -91,12 +108,15 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
                 if (constraint != null || constraint.toString().length() > 0) {
                     ArrayList<Order> filteredOrderList = new ArrayList<>();
 
-                    for (Order o : origOrderList) {
-                        boolean equals = o.getId().equals(constraint.toString());
-                        if (equals) {
+                    for (Order o : origOrderList) {Pattern p = Pattern.compile(".*" + constraint.toString()  + ".*");
+                        Matcher m = p.matcher(o.getId());
+                        boolean b = m.matches();
+
+                        if (b) {
                             System.out.println("id: " + o.getId());
                             filteredOrderList.add(o);
                         }
+
                         results.values = filteredOrderList;
                         results.count = filteredOrderList.size();
                     }
@@ -115,6 +135,7 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
 
                 if (results.count == 0) {
                     notifyDataSetInvalidated();
+                    orderList = (ArrayList<Order>)results.values;
                 } else {
                     orderList = (ArrayList<Order>)results.values;
                     notifyDataSetChanged();
@@ -124,4 +145,13 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
 
         return filter;
     }
+
+    public void refreshEvents(List<Order> orders) {
+        this.orderList.clear();
+        this.orderList.addAll(orders);
+        File cacheDir = getContext().getCacheDir();
+        cacheDir.delete();
+        notifyDataSetChanged();
+    }
+
 }

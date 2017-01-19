@@ -1,39 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/item_color"
+    android:divider="@color/kantiPurple"
+    android:layout_marginBottom="14dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="94dp"
-        android:id="@+id/product_details_image"
-        android:src="@mipmap/ic_launcher"
-        android:layout_weight="0.39" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="101dp"
+        android:layout_weight="0.07" >
 
-    <TextView
-        android:text="Name"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/product_details_product_name"
-        android:layout_weight="0.61"
-        android:textSize="24sp" />
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:id="@+id/product_details_image"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginRight="10dp"/>
 
-    <TextView
-        android:text="Amount"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/product_details_amount"
-        android:textSize="24sp"
-        android:layout_weight="0.18" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="107dp"
+            android:weightSum="1">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/product_details_checkbox"
-        android:textSize="36sp"
-        android:layout_weight="0.07" />
+            <TextView
+                android:text="Name"
+                android:textColor="@color/text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/product_details_product_name"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <TextView
+                    android:text="@string/aantalLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/aantalLabel"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp"
+                    android:labelFor="@+id/product_details_amount"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:text="Amount"
+                    android:textColor="@color/text_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/product_details_amount"
+                    android:textSize="14sp"
+                    android:layout_weight="0.34" />
+
+                <!--<CheckBox-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:id="@+id/product_details_checkbox"-->
+                    <!--android:layout_weight="0.03" />-->
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>
