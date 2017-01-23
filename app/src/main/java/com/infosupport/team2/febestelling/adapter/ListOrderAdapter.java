@@ -108,11 +108,9 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
                 if (constraint != null || constraint.toString().length() > 0) {
                     ArrayList<Order> filteredOrderList = new ArrayList<>();
 
-                    for (Order o : origOrderList) {Pattern p = Pattern.compile(".*" + constraint.toString()  + ".*");
-                        Matcher m = p.matcher(o.getId());
-                        boolean b = m.matches();
+                    for (Order o : origOrderList) {
 
-                        if (b) {
+                        if (isMatch(o, constraint)) {
                             System.out.println("id: " + o.getId());
                             filteredOrderList.add(o);
                         }
@@ -152,6 +150,12 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
         File cacheDir = getContext().getCacheDir();
         cacheDir.delete();
         notifyDataSetChanged();
+    }
+
+    public Boolean isMatch(Order order, CharSequence constraint) {
+        Pattern p = Pattern.compile(".*" + constraint.toString()  + ".*");
+        Matcher m = p.matcher(order.getId());
+        return m.matches();
     }
 
 }
