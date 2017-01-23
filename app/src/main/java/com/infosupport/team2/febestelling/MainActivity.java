@@ -38,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ public class MainActivity extends Activity {
     ListView listView;
     private String ORDER_URL = "http://10.0.3.2:11130/orderservice/statuses";
     private String AUTHENTICATION_URL = "http://10.0.3.2:11150/oauth/token?grant_type=password&username=pieter@hotmail.com&password=henkie&client_id=kantilever&client_secret=kantiSecret";
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,26 +126,9 @@ public class MainActivity extends Activity {
 
                         List<String> statuses = JsonUtils.parseStatusResponse(response.toString());
 
-                        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_view);
+                        linearLayout = (LinearLayout) findViewById(R.id.main_view);
 
-                        for (final String i: statuses) {
-
-                            Button button = new Button(MainActivity.this);
-                            button.setHeight(300);
-                            button.setText(i);
-                            button.setTextSize(40);
-
-                            button.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(v.getContext(), OrderListActivity.class);
-                                    intent.putExtra("status", i);
-                                    startActivity(intent);
-                                }
-                            });
-
-                            linearLayout.addView(button);
-                        }
+                        addButtons(statuses, linearLayout);
 
                         progressDialog.hide();
                     }
@@ -165,5 +150,25 @@ public class MainActivity extends Activity {
         };
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
+    }
+    public void addButtons(List<String> stringArrayList, LinearLayout linearLayout) {
+        for (final String i: stringArrayList) {
+
+            Button button = new Button(MainActivity.this);
+            button.setHeight(300);
+            button.setText(i);
+            button.setTextSize(40);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), OrderListActivity.class);
+                    intent.putExtra("status", i);
+                    startActivity(intent);
+                }
+            });
+
+            linearLayout.addView(button);
+        }
     }
 }
