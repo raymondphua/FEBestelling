@@ -18,6 +18,7 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 
     private EditText emailField, passwordField;
+    private String serverEmail, serverPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,7 @@ public class LoginActivity extends Activity {
     public Boolean validateIsCorrect(String inputEmail, String inputPassword) {
 
         // TODO: get data from server
-        String serverEmail = "test@test.nl";
-        String serverPassword = "password";
+
         if (!inputEmail.matches("") && !inputPassword.matches("")) {
             return (serverEmail.equals(inputEmail)) &&
                     (serverPassword.equals(inputPassword));
@@ -75,4 +75,10 @@ public class LoginActivity extends Activity {
         intent.putExtra("password", password);
         startActivity(intent);
     }
+
+    public void setServerData(String serverEmail, String serverPassword) {
+        this.serverEmail = serverEmail;
+        this.serverPassword = serverPassword;
+    }
+
 }
