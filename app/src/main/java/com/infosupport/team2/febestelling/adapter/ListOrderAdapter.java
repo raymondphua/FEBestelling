@@ -157,5 +157,4 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
         Matcher m = p.matcher(order.getId());
         return m.matches();
     }
-
 }
