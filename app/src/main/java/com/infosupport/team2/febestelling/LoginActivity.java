@@ -59,6 +59,7 @@ public class LoginActivity extends Activity {
     public Boolean validateIsCorrect(String inputEmail, String inputPassword) {
 
         // TODO: get data from server
+        setServerData("test@test.nl", "password");
 
         if (!inputEmail.matches("") && !inputPassword.matches("")) {
             return (serverEmail.equals(inputEmail)) &&
