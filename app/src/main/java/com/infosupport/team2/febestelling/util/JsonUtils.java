@@ -11,8 +11,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.order;
-
 /**
  * Created by Robin on 16-1-2017.
  */
@@ -28,10 +26,13 @@ public class JsonUtils {
                 JSONObject result = jsonArray.getJSONObject(i);
                 Order order = new Order();
                 order.setId(result.getString("id"));
-                order.setCustomer(parseCustomerObject(result.getJSONObject("customer")));
-                order.setDate(result.getString("orderDate"));
 
-                orders.add(order);
+                if(!result.isNull("customer")) {
+                    order.setCustomer(parseCustomerObject(result.getJSONObject("customer")));
+                    order.setDate(result.getString("orderDate"));
+
+                    orders.add(order);
+                }
             }
 
             return orders;
