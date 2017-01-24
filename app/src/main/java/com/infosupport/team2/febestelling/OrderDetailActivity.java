@@ -134,7 +134,7 @@ public class OrderDetailActivity extends Activity {
         String REQUEST_TAG = "com.infosupport.team2.putRequest";
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status", "AFGELEVERD");
+        jsonObject.put("status", "INGEPAKT");
         final String requestBody = jsonObject.toString();
 
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
