@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -49,7 +51,6 @@ public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
     ListView listView;
     private String ORDER_URL = "http://10.0.3.2:11130/orderservice/statuses";
-    private String AUTHENTICATION_URL = "http://10.0.3.2:11150/oauth/token?grant_type=password&username=pieter@hotmail.com&password=henkie&client_id=kantilever&client_secret=kantiSecret";
     private LinearLayout linearLayout;
 
     @Override
@@ -57,59 +58,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressDialog = new ProgressDialog(this);
-
-        authenticateApp(AUTHENTICATION_URL);
+        statusRequest(ORDER_URL);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         progressDialog.dismiss();
-    }
-
-    public void authenticateApp(String url){
-        String REQUEST_TAG = "com.infosupport.team2.authenticationReq";
-        progressDialog.setMessage("Laden...");
-        progressDialog.show();
-
-        JSONObject jsonObject = new JSONObject();
-        final String requestBody = jsonObject.toString();
-        String result = "";
-
-        StringRequest putRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Response", response);
-                        try {
-                            JSONObject responseObject = new JSONObject(response);
-                            AppSingleton.getInstance(getApplicationContext()).token = responseObject.getString("access_token");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        statusRequest(ORDER_URL);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.response", error.getMessage());
-                        progressDialog.hide();
-                    }
-                })
-        {
-            @Override
-            public byte[] getBody() {
-                return requestBody.getBytes();
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return "application/json";
-            }
-        };
-        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
 
     public void statusRequest(String url) {
@@ -135,8 +90,20 @@ public class MainActivity extends Activity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                progressDialog.hide();
+                try {
+                    if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
+                        toastMessage("Het systeem is momenteel onbereikbaar.");
+                        progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 401){
+                        toastMessage("U dient opnieuw in te loggen.");
+                        progressDialog.hide();
+                    }
+                    goToLogin();
+                    Log.d("Error.response", error.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    progressDialog.hide();
+                }
             }
         }){
             @Override
@@ -151,6 +118,7 @@ public class MainActivity extends Activity {
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
     }
+
     public void addButtons(List<String> stringArrayList, LinearLayout linearLayout) {
         for (final String i: stringArrayList) {
 
@@ -171,4 +139,14 @@ public class MainActivity extends Activity {
             linearLayout.addView(button);
         }
     }
+
+    public void toastMessage(String txt) {
+        Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
+    }
+
+    public void goToLogin() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
 }
