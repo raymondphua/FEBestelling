@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,8 +31,12 @@ import java.util.List;
 
 public class ListProductAdapter extends ArrayAdapter<Product> {
 
+    private int countCheckbox;
+    List<Product> productList;
+
     public ListProductAdapter(Context context, int resource, List<Product> objects) {
         super(context, resource, objects);
+        this.productList = objects;
     }
 
     @Override
@@ -50,6 +56,20 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
             final ImageView productImage = (ImageView) view.findViewById(R.id.product_details_image);
             TextView productName = (TextView) view.findViewById(R.id.product_details_product_name);
             TextView productQuantity = (TextView) view.findViewById(R.id.product_details_amount);
+            final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        countCheckbox++;
+                        System.out.println("counter: " + countCheckbox);
+                    } else {
+                        countCheckbox--;
+                        System.out.println("counter: " + countCheckbox);
+                    }
+                }
+            });
 
             // TODO: productImage needs to map here too
             if (productImage != null) {
@@ -68,7 +88,6 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
                 AppSingleton.getInstance(view.getContext()).addToRequestQueue(imageRequest, REQUEST_TAG);
             }
 
-            // TODO: productAmount needs to map
             if (productQuantity != null) {
                 String quantity = String.valueOf(product.getQuantity());
                 productQuantity.setText(quantity);
@@ -82,10 +101,16 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
         return view;
     }
 
-    public Bitmap getBitmap(String src) throws IOException {
-        URL url = new URL(src);
-        Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        return bitmap;
+    @Override
+    public int getCount() {
+        return productList.size();
     }
 
+    public int getCountCheckbox() {
+        return countCheckbox;
+    }
+
+    public void setCountCheckbox(int countCheckbox) {
+        this.countCheckbox = countCheckbox;
+    }
 }

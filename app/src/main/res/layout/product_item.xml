@@ -67,6 +67,16 @@
                     <!--android:layout_weight="0.03" />-->
             </LinearLayout>
 
+            <CheckBox
+                android:text="geraapt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBox"
+                android:scrollHorizontally="false"
+                android:textSize="14sp"
+                android:textColor="@color/text_color"
+                />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -1,7 +1,9 @@
 package com.infosupport.team2.febestelling;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +43,7 @@ public class OrderDetailActivity extends Activity {
     private static final String TAG = "OrderDetailActivity";
     private static final String ORDER_URL =   "http://10.0.3.2:11130/orderservice/orders/";
 
+    private ListProductAdapter listProductAdapter;
     ProgressDialog progressDialog;
 
     private static final String PACK_URL = "";
@@ -62,7 +65,6 @@ public class OrderDetailActivity extends Activity {
         packBtn = (Button) findViewById(R.id.order_details_btn_ingepakt);
 
 
-        // TODO: order nummer opvangen en op basis hiervan de producten ervan ophalen
         Intent intent = getIntent();
         orderId.setText(intent.getStringExtra("orderId"));
         customerName.setText(intent.getStringExtra("customerName"));
@@ -76,11 +78,7 @@ public class OrderDetailActivity extends Activity {
             packBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        changeStatus((String) orderId.getText());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    confirmStatusChange(listProductAdapter);
                 }
             });
         }
@@ -94,7 +92,7 @@ public class OrderDetailActivity extends Activity {
             public void onResponse(JSONArray response) {
                 List<Product> products = JsonUtils.parseProductsResponse(response.toString());
 
-                ListProductAdapter listProductAdapter =
+                listProductAdapter =
                         new ListProductAdapter(getApplicationContext(), R.layout.product_item, products);
                 listView.setAdapter(listProductAdapter);
             }
@@ -134,7 +132,7 @@ public class OrderDetailActivity extends Activity {
         String REQUEST_TAG = "com.infosupport.team2.putRequest";
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status", "AFGELEVERD");
+        jsonObject.put("status", "INGEPAKT");
         final String requestBody = jsonObject.toString();
 
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
@@ -193,5 +191,37 @@ public class OrderDetailActivity extends Activity {
     public void goToLogin() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void confirmStatusChange(ListProductAdapter listProductAdapter) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (listProductAdapter.getCountCheckbox() < listProductAdapter.getCount()) {
+            builder.setTitle("Niet alle producten zijn geraapt");
+            builder.setMessage("Weet u zeker dat u door wilt gaan?");
+            builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        changeStatus((String) orderId.getText());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            builder.setTitle("?");
+            builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        changeStatus((String) orderId.getText());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        builder.setNegativeButton("Nee", null);
+        builder.show();
     }
 }
