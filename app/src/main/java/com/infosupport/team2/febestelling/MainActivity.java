@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.R.attr.cacheColorHint;
 import static android.R.attr.text;
 
 public class MainActivity extends Activity {
@@ -130,6 +131,12 @@ public class MainActivity extends Activity {
                     break;
                 case "INGEPAKT":
                     addButton("Bestelling ingepakt", i);
+                    break;
+                case "IN_BEHANDELING":
+                    addButton("Bestelling in behandeling", i);
+                    break;
+                case "VERZONDEN":
+                    addButton("Bestelling verzonden", i);
                     break;
                 default:
                     break;

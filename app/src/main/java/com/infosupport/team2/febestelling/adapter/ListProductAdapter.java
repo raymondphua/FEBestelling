@@ -32,11 +32,14 @@ import java.util.List;
 public class ListProductAdapter extends ArrayAdapter<Product> {
 
     private int countCheckbox;
+    private CheckBox checkBox;
     List<Product> productList;
+    String status;
 
-    public ListProductAdapter(Context context, int resource, List<Product> objects) {
+    public ListProductAdapter(Context context, int resource, List<Product> objects, String listStatus) {
         super(context, resource, objects);
         this.productList = objects;
+        this.status = listStatus;
     }
 
     @Override
@@ -56,7 +59,12 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
             final ImageView productImage = (ImageView) view.findViewById(R.id.product_details_image);
             TextView productName = (TextView) view.findViewById(R.id.product_details_product_name);
             TextView productQuantity = (TextView) view.findViewById(R.id.product_details_amount);
-            final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+            checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+
+            if (!status.equals("BESTELD")) {
+                checkBox.setVisibility(View.INVISIBLE);
+            }
+
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

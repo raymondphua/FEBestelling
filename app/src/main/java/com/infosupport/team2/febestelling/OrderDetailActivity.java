@@ -51,6 +51,7 @@ public class OrderDetailActivity extends Activity {
     private ListView listView;
     private Button packBtn;
     private TextView orderId, customerName;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +71,20 @@ public class OrderDetailActivity extends Activity {
         customerName.setText(intent.getStringExtra("customerName"));
         setProductList(ORDER_URL + orderId.getText() + "/products");
 
-        String status = getIntent().getStringExtra("status");
+        status = getIntent().getStringExtra("status");
 
-        if (status.equals("AFGELEVERD")) {
-            packBtn.setVisibility(View.GONE);
-        }
+        if (status.equals("BESTELD")) {
             packBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     confirmStatusChange(listProductAdapter);
                 }
             });
+        } else {
+            packBtn.setVisibility(View.GONE);
         }
+
+    }
 
 
     public void setProductList(String url) {
@@ -93,7 +96,7 @@ public class OrderDetailActivity extends Activity {
                 List<Product> products = JsonUtils.parseProductsResponse(response.toString());
 
                 listProductAdapter =
-                        new ListProductAdapter(getApplicationContext(), R.layout.product_item, products);
+                        new ListProductAdapter(getApplicationContext(), R.layout.product_item, products, status);
                 listView.setAdapter(listProductAdapter);
             }
         }, new Response.ErrorListener() {
@@ -197,7 +200,8 @@ public class OrderDetailActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (listProductAdapter.getCountCheckbox() < listProductAdapter.getCount()) {
             builder.setTitle("Niet alle producten zijn geraapt");
-            builder.setMessage("Weet u zeker dat u door wilt gaan?");
+            builder.setMessage("U heeft niet alle producten aangevinkt." +
+                    " Weet u zeker dat u door wilt gaan?");
             builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -209,7 +213,8 @@ public class OrderDetailActivity extends Activity {
                 }
             });
         } else {
-            builder.setTitle("?");
+            builder.setTitle("Bevestiging");
+            builder.setMessage("Weet u zeker dat de bestelling doorgevoerd kan worden?");
             builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
