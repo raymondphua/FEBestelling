@@ -1,6 +1,7 @@
 package com.infosupport.team2.febestelling;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,8 @@ public class OrderDetailActivity extends Activity {
     private static final String TAG = "OrderDetailActivity";
     private static final String ORDER_URL =   "http://10.0.3.2:11130/orderservice/orders/";
 
+    ProgressDialog progressDialog;
+
     private static final String PACK_URL = "";
 
     private ListView listView;
@@ -50,6 +53,8 @@ public class OrderDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_details);
+
+        progressDialog = new ProgressDialog(this);
 
         listView = (ListView)findViewById(R.id.order_details_listview_products);
         orderId = (TextView) findViewById(R.id.order_details_order_id);
@@ -96,7 +101,20 @@ public class OrderDetailActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                try {
+                    if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
+                        toastMessage("Het systeem is momenteel onbereikbaar.");
+                        progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 401){
+                        toastMessage("U dient opnieuw in te loggen.");
+                        progressDialog.hide();
+                    }
+                    goToLogin();
+                    Log.d("Error.response", error.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    progressDialog.hide();
+                }
             }
     }){
             @Override
@@ -131,7 +149,20 @@ public class OrderDetailActivity extends Activity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.response", error.getMessage());
+                        try {
+                            if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
+                                toastMessage("Het systeem is momenteel onbereikbaar.");
+                                progressDialog.hide();
+                            } else if (error.networkResponse.statusCode == 401){
+                                toastMessage("U dient opnieuw in te loggen.");
+                                progressDialog.hide();
+                            }
+                            goToLogin();
+                            Log.d("Error.response", error.getMessage());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            progressDialog.hide();
+                        }
                     }
                 })
         {
@@ -155,5 +186,12 @@ public class OrderDetailActivity extends Activity {
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
+    public void toastMessage(String txt) {
+        Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
+    }
 
+    public void goToLogin() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
 }

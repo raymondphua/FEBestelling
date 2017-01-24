@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -142,8 +143,20 @@ public class OrderListActivity extends ListActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                progressDialog.hide();
+                try {
+                    if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
+                        toastMessage("Momenteel kan het systeem de bestellingen niet ophalen.");
+                        progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 401){
+                        toastMessage("uw inlog gegevens kloppen niet.");
+                        progressDialog.hide();
+                        goToLogin();
+                    }
+                    Log.d("Error.response", error.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    progressDialog.hide();
+                }
             }
         }){
             @Override
@@ -157,6 +170,15 @@ public class OrderListActivity extends ListActivity {
         };
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
+    }
+
+    public void toastMessage(String txt) {
+        Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
+    }
+
+    public void goToLogin() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 }
 
