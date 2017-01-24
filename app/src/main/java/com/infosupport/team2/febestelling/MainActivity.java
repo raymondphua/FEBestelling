@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.R.attr.text;
+
 public class MainActivity extends Activity {
 
     ProgressDialog progressDialog;
@@ -83,7 +85,7 @@ public class MainActivity extends Activity {
 
                         linearLayout = (LinearLayout) findViewById(R.id.main_view);
 
-                        addButtons(statuses, linearLayout);
+                        addButtons(statuses);
 
                         progressDialog.hide();
                     }
@@ -94,7 +96,7 @@ public class MainActivity extends Activity {
                     if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
                         toastMessage("Het systeem is momenteel onbereikbaar.");
                         progressDialog.hide();
-                    } else if (error.networkResponse.statusCode == 401){
+                    } else if (error.networkResponse.statusCode == 401) {
                         toastMessage("U dient opnieuw in te loggen.");
                         progressDialog.hide();
                     }
@@ -105,11 +107,11 @@ public class MainActivity extends Activity {
                     progressDialog.hide();
                 }
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("Authorization","Bearer " + AppSingleton.getInstance(getApplicationContext()).token);
+                map.put("Authorization", "Bearer " + AppSingleton.getInstance(getApplicationContext()).token);
 
                 return map;
             }
@@ -119,24 +121,19 @@ public class MainActivity extends Activity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
     }
 
-    public void addButtons(List<String> stringArrayList, LinearLayout linearLayout) {
-        for (final String i: stringArrayList) {
+    public void addButtons(List<String> stringArrayList) {
+        for (final String i : stringArrayList) {
 
-            Button button = new Button(MainActivity.this);
-            button.setHeight(300);
-            button.setText(i);
-            button.setTextSize(40);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), OrderListActivity.class);
-                    intent.putExtra("status", i);
-                    startActivity(intent);
-                }
-            });
-
-            linearLayout.addView(button);
+            switch (i) {
+                case "BESTELD":
+                    addButton("Bestelling geplaatst", i);
+                    break;
+                case "INGEPAKT":
+                    addButton("Bestelling ingepakt", i);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -147,6 +144,25 @@ public class MainActivity extends Activity {
     public void goToLogin() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+    }
+
+
+    public void addButton(String viewStatus, final String serverStatus) {
+        Button button = new Button(MainActivity.this);
+        button.setHeight(300);
+        button.setText(viewStatus);
+        button.setTextSize(24);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), OrderListActivity.class);
+                intent.putExtra("status", serverStatus);
+                startActivity(intent);
+            }
+        });
+
+        linearLayout.addView(button);
     }
 
 }
