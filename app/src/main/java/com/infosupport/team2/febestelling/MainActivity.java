@@ -161,7 +161,6 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
         linearLayout.addView(button);
     }
 
