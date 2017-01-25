@@ -2,6 +2,7 @@ package com.infosupport.team2.febestelling;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -117,7 +118,6 @@ public class LoginActivity extends Activity {
                         try {
                             JSONObject responseObject = new JSONObject(response);
                             AppSingleton.getInstance(getApplicationContext()).token = responseObject.getString("access_token");
-                            toastMessage("Inloggen gelukt!");
                             goToNextPage();
                             progressDialog.hide();
                         } catch (JSONException e) {
@@ -134,6 +134,9 @@ public class LoginActivity extends Activity {
                         try {
                             if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
                                 toastMessage("Het is momenteel niet mogelijk om in te loggen.");
+                                progressDialog.hide();
+                            } else if (error.networkResponse.statusCode == 403) {
+                                toastMessage("U heeft niet de juiste rechten.");
                                 progressDialog.hide();
                             } else if (error.networkResponse.statusCode == 401){
                                 toastMessage("Login gegevens kloppen niet.");
@@ -170,4 +173,5 @@ public class LoginActivity extends Activity {
     public void toastMessage(String txt) {
         Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
     }
+
 }

@@ -147,6 +147,9 @@ public class OrderListActivity extends ListActivity {
                     if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
                         toastMessage("Momenteel kan het systeem de bestellingen niet ophalen.");
                         progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 403) {
+                        toastMessage("U heeft niet de juiste rechten.");
+                        progressDialog.hide();
                     } else if (error.networkResponse.statusCode == 401){
                         toastMessage("uw inlog gegevens kloppen niet.");
                         progressDialog.hide();

@@ -1,8 +1,9 @@
-package com.infosupport.team2.febestelling.adapter;
+package com.infosupport.team2.febestelling;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
 
+import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
 
 import org.junit.Before;

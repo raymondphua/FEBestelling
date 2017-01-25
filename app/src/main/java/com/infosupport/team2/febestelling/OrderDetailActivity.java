@@ -106,6 +106,9 @@ public class OrderDetailActivity extends Activity {
                     if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
                         toastMessage("Het systeem is momenteel onbereikbaar.");
                         progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 403) {
+                        toastMessage("U heeft niet de juiste rechten.");
+                        progressDialog.hide();
                     } else if (error.networkResponse.statusCode == 401){
                         toastMessage("U dient opnieuw in te loggen.");
                         progressDialog.hide();
