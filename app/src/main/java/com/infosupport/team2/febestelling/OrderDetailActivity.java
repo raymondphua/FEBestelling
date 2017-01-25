@@ -1,7 +1,9 @@
 package com.infosupport.team2.febestelling;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +43,7 @@ public class OrderDetailActivity extends Activity {
     private static final String TAG = "OrderDetailActivity";
     private static final String ORDER_URL =   "http://10.0.3.2:11130/orderservice/orders/";
 
+    private ListProductAdapter listProductAdapter;
     ProgressDialog progressDialog;
 
     private static final String PACK_URL = "";
@@ -48,6 +51,7 @@ public class OrderDetailActivity extends Activity {
     private ListView listView;
     private Button packBtn;
     private TextView orderId, customerName;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,28 +66,25 @@ public class OrderDetailActivity extends Activity {
         packBtn = (Button) findViewById(R.id.order_details_btn_ingepakt);
 
 
-        // TODO: order nummer opvangen en op basis hiervan de producten ervan ophalen
         Intent intent = getIntent();
         orderId.setText(intent.getStringExtra("orderId"));
         customerName.setText(intent.getStringExtra("customerName"));
         setProductList(ORDER_URL + orderId.getText() + "/products");
 
-        String status = getIntent().getStringExtra("status");
+        status = getIntent().getStringExtra("status");
 
-        if (status.equals("AFGELEVERD")) {
-            packBtn.setVisibility(View.GONE);
-        }
+        if (status.equals("BESTELD")) {
             packBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        changeStatus((String) orderId.getText());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    confirmStatusChange(listProductAdapter);
                 }
             });
+        } else {
+            packBtn.setVisibility(View.GONE);
         }
+
+    }
 
 
     public void setProductList(String url) {
@@ -94,8 +95,8 @@ public class OrderDetailActivity extends Activity {
             public void onResponse(JSONArray response) {
                 List<Product> products = JsonUtils.parseProductsResponse(response.toString());
 
-                ListProductAdapter listProductAdapter =
-                        new ListProductAdapter(getApplicationContext(), R.layout.product_item, products);
+                listProductAdapter =
+                        new ListProductAdapter(getApplicationContext(), R.layout.product_item, products, status);
                 listView.setAdapter(listProductAdapter);
             }
         }, new Response.ErrorListener() {
@@ -104,6 +105,9 @@ public class OrderDetailActivity extends Activity {
                 try {
                     if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
                         toastMessage("Het systeem is momenteel onbereikbaar.");
+                        progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 403) {
+                        toastMessage("U heeft niet de juiste rechten.");
                         progressDialog.hide();
                     } else if (error.networkResponse.statusCode == 401){
                         toastMessage("U dient opnieuw in te loggen.");
@@ -193,5 +197,39 @@ public class OrderDetailActivity extends Activity {
     public void goToLogin() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void confirmStatusChange(ListProductAdapter listProductAdapter) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (listProductAdapter.getCountCheckbox() < listProductAdapter.getCount()) {
+            builder.setTitle("Niet alle producten zijn geraapt");
+            builder.setMessage("U heeft niet alle producten aangevinkt." +
+                    " Weet u zeker dat u door wilt gaan?");
+            builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        changeStatus((String) orderId.getText());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            builder.setTitle("Bevestiging");
+            builder.setMessage("Weet u zeker dat de bestelling doorgevoerd kan worden?");
+            builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        changeStatus((String) orderId.getText());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        builder.setNegativeButton("Nee", null);
+        builder.show();
     }
 }
