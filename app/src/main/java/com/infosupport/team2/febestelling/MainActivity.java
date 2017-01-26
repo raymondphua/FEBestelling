@@ -1,52 +1,29 @@
 package com.infosupport.team2.febestelling;
 
-import android.app.ActionBar;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
-import com.infosupport.team2.febestelling.resource.TestData;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.R.attr.cacheColorHint;
-import static android.R.attr.text;
 
 public class MainActivity extends Activity {
 
@@ -108,7 +85,6 @@ public class MainActivity extends Activity {
                     }
                     goToLogin();
                 } catch (Exception e) {
-                    e.printStackTrace();
                     Log.w(e.getMessage(), e);
                     progressDialog.hide();
                 }

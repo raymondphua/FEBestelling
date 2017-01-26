@@ -17,7 +17,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.infosupport.team2.febestelling.adapter.ListProductAdapter;
@@ -115,7 +114,6 @@ public class OrderDetailActivity extends Activity {
                     }
                     goToLogin();
                 } catch (Exception e) {
-                    e.printStackTrace();
                     Log.w(e.getMessage(), e);
                     progressDialog.hide();
                 }
@@ -162,7 +160,6 @@ public class OrderDetailActivity extends Activity {
                             }
                             goToLogin();
                         } catch (Exception e) {
-                            e.printStackTrace();
                             Log.w(e.getMessage(), e);
                             progressDialog.hide();
                         }
@@ -210,7 +207,7 @@ public class OrderDetailActivity extends Activity {
                     try {
                         changeStatus((String) orderId.getText());
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.w(e.getMessage(), e);
                     }
                 }
             });
@@ -223,7 +220,7 @@ public class OrderDetailActivity extends Activity {
                     try {
                         changeStatus((String) orderId.getText());
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.w(e.getMessage(), e);
                     }
                 }
             });

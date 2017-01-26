@@ -13,19 +13,19 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
+
 import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,7 +153,6 @@ public class OrderListActivity extends ListActivity {
                         goToLogin();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
                     Log.w(e.getMessage(), e);
                     progressDialog.hide();
                 }

@@ -1,10 +1,7 @@
 package com.infosupport.team2.febestelling;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Application;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,26 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.R.attr.breadCrumbShortTitle;
-import static android.R.attr.password;
 
 
 /**
@@ -121,7 +106,6 @@ public class LoginActivity extends Activity {
                             goToNextPage();
                             progressDialog.hide();
                         } catch (JSONException e) {
-                            e.printStackTrace();
                             Log.w(e.getMessage(), e);
                             progressDialog.hide();
                         }
@@ -149,9 +133,7 @@ public class LoginActivity extends Activity {
                         }
                     }
 
-                })
-        {
-
+                }) {
             @Override
             public byte[] getBody() {
                 return requestBody.getBytes();
