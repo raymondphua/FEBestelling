@@ -37,8 +37,6 @@ import java.util.Map;
 
 public class OrderListActivity extends ListActivity {
 
-    TextView statusLabel, statusState;
-
     ProgressDialog progressDialog;
     private static final String TAG = "OrderListActivity";
     ListView listView;
@@ -86,7 +84,6 @@ public class OrderListActivity extends ListActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
                         LayoutInflater li = LayoutInflater.from(OrderListActivity.this);
 
                         listView = (ListView) findViewById(android.R.id.list);
@@ -155,9 +152,9 @@ public class OrderListActivity extends ListActivity {
                         progressDialog.hide();
                         goToLogin();
                     }
-                    Log.d("Error.response", error.getMessage());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.w(e.getMessage(), e);
                     progressDialog.hide();
                 }
             }

@@ -80,7 +80,6 @@ public class MainActivity extends Activity {
 
                         toastMessage("Inloggen gelukt!");
 
-                        Log.d(TAG, response.toString());
                         LayoutInflater li = LayoutInflater.from(MainActivity.this);
 
                         listView = (ListView) findViewById(android.R.id.list);
@@ -108,9 +107,9 @@ public class MainActivity extends Activity {
                         progressDialog.hide();
                     }
                     goToLogin();
-                    Log.d("Error.response", error.getMessage());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.w(e.getMessage(), e);
                     progressDialog.hide();
                 }
             }

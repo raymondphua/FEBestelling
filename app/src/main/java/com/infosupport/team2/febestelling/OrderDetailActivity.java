@@ -114,9 +114,9 @@ public class OrderDetailActivity extends Activity {
                         progressDialog.hide();
                     }
                     goToLogin();
-                    Log.d("Error.response", error.getMessage());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.w(e.getMessage(), e);
                     progressDialog.hide();
                 }
             }
@@ -145,7 +145,6 @@ public class OrderDetailActivity extends Activity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Response", response);
                         Toast.makeText(OrderDetailActivity.this, "ORDER " + orderId + " ingepakt", Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -162,9 +161,9 @@ public class OrderDetailActivity extends Activity {
                                 progressDialog.hide();
                             }
                             goToLogin();
-                            Log.d("Error.response", error.getMessage());
                         } catch (Exception e) {
                             e.printStackTrace();
+                            Log.w(e.getMessage(), e);
                             progressDialog.hide();
                         }
                     }

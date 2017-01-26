@@ -122,7 +122,7 @@ public class LoginActivity extends Activity {
                             progressDialog.hide();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.d("Response", response);
+                            Log.w(e.getMessage(), e);
                             progressDialog.hide();
                         }
                     }
@@ -142,9 +142,9 @@ public class LoginActivity extends Activity {
                                 toastMessage("Login gegevens kloppen niet.");
                                 progressDialog.hide();
                             }
-                            Log.d("Error.response", error.getMessage());
                         } catch (Exception e) {
                             e.printStackTrace();
+                            Log.w(e.getMessage(), e);
                             progressDialog.hide();
                         }
                     }
