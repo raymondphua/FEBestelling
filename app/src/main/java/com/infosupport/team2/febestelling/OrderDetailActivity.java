@@ -49,7 +49,9 @@ public class OrderDetailActivity extends Activity {
 
     private ListView listView;
     private Button packBtn;
-    private TextView orderId, customerName;
+    private TextView customerName;
+    private TextView orderKey;
+    private String orderId;
     String status;
 
     @Override
@@ -60,15 +62,15 @@ public class OrderDetailActivity extends Activity {
         progressDialog = new ProgressDialog(this);
 
         listView = (ListView)findViewById(R.id.order_details_listview_products);
-        orderId = (TextView) findViewById(R.id.order_details_order_id);
+        orderKey = (TextView) findViewById(R.id.order_details_order_key);
         customerName = (TextView) findViewById(R.id.order_details_customer_name);
         packBtn = (Button) findViewById(R.id.order_details_btn_ingepakt);
 
-
         Intent intent = getIntent();
-        orderId.setText(intent.getStringExtra("orderId"));
+        orderId = intent.getStringExtra("orderId");
+        orderKey.setText(intent.getStringExtra("orderKey"));
         customerName.setText(intent.getStringExtra("customerName"));
-        setProductList(ORDER_URL + orderId.getText() + "/products");
+        setProductList(ORDER_URL + orderId + "/products");
 
         status = getIntent().getStringExtra("status");
 
@@ -205,7 +207,7 @@ public class OrderDetailActivity extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     try {
-                        changeStatus((String) orderId.getText());
+                        changeStatus((String) orderId);
                     } catch (JSONException e) {
                         Log.w(e.getMessage(), e);
                     }
@@ -218,7 +220,7 @@ public class OrderDetailActivity extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     try {
-                        changeStatus((String) orderId.getText());
+                        changeStatus((String) orderId);
                     } catch (JSONException e) {
                         Log.w(e.getMessage(), e);
                     }

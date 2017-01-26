@@ -44,13 +44,13 @@ public class ListOrderAdapterTest {
         CharSequence constraint;
         boolean match;
 
-        order.setId("2");
+        order.setOrderKey("2");
         constraint = "2";
         match = listOrderAdapter.isMatch(order, constraint);
         assertThat(match, is(true));
 
 
-        order.setId("1");
+        order.setOrderKey("1");
         constraint = "2";
         match = listOrderAdapter.isMatch(order, constraint);
         assertThat(match, is(false));
