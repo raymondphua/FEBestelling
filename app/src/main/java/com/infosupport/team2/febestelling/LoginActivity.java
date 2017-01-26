@@ -27,7 +27,8 @@ import org.json.JSONObject;
 public class LoginActivity extends Activity {
 
     private ProgressDialog progressDialog;
-    private EditText emailField, passwordField;
+    private EditText emailField;
+    private EditText passwordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +65,21 @@ public class LoginActivity extends Activity {
         resetFields();
     }
 
+    /**
+     * Go to MainActivity
+     */
     public void goToNextPage() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Checks if the user input is filled.
+     *
+     * @param email
+     * @param password
+     * @return
+     */
     public Boolean isValidInput(String email, String password) {
         if (email.matches("") || password.matches("")) {
             Toast.makeText(getApplicationContext(),
@@ -79,6 +90,12 @@ public class LoginActivity extends Activity {
         }
     }
 
+    /**
+     * Make the authentication url
+     * @param email
+     * @param password
+     * @return
+     */
     public String createAuthUrl(String email, String password) {
         String AUTHENTICATION_URL = "http://10.0.3.2:11150/oauth/token?grant_type=password&" +
                 "username=" + email + "&" +
@@ -87,6 +104,10 @@ public class LoginActivity extends Activity {
         return AUTHENTICATION_URL;
     }
 
+    /**
+     * Get authentication from server
+     * @param url
+     */
     public void authenticateApp(String url) {
         String REQUEST_TAG = "com.infosupport.team2.authenticationReq";
         progressDialog.setMessage("Laden...");
@@ -122,12 +143,11 @@ public class LoginActivity extends Activity {
                             } else if (error.networkResponse.statusCode == 403) {
                                 toastMessage("U heeft niet de juiste rechten.");
                                 progressDialog.hide();
-                            } else if (error.networkResponse.statusCode == 401){
+                            } else if (error.networkResponse.statusCode == 401) {
                                 toastMessage("Login gegevens kloppen niet.");
                                 progressDialog.hide();
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
                             Log.w(e.getMessage(), e);
                             progressDialog.hide();
                         }
@@ -147,11 +167,18 @@ public class LoginActivity extends Activity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
 
+    /**
+     * Reset the user input fields
+     */
     public void resetFields() {
         this.emailField.setText("");
         this.passwordField.setText("");
     }
 
+    /**
+     * Give feedback message to user
+     * @param txt
+     */
     public void toastMessage(String txt) {
         Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
     }
