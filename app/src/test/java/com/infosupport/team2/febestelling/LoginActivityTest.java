@@ -28,7 +28,7 @@ public class LoginActivityTest {
             "&client_id=kantilever&client_secret=kantiSecret";
 
     String email = "test@test.nl";
-    String password = "password123";
+    String ww = "password123";
 
 
     @Mock
@@ -43,13 +43,13 @@ public class LoginActivityTest {
     @Test
     public void createAuthUrl() {
 
-        String authUrl = loginActivity.createAuthUrl(email, password);
+        String authUrl = loginActivity.createAuthUrl(email, ww);
         assertThat(authUrl, is(authUrl));
 
         email = "new@mail.com";
-        password = "admin";
+        ww = "admin";
 
-        authUrl = loginActivity.createAuthUrl(email, password);
+        authUrl = loginActivity.createAuthUrl(email, ww);
         assertThat(authUrl, is(authUrl2));
     }
 }
