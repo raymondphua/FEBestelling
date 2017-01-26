@@ -7,9 +7,12 @@
     <string name="status_state">Status state</string>
     <string name="aantalLabel">Aantal:</string>
     <string name="packBtn">Ingepakt</string>
-    <string name="orderIdLabel">Order id:</string>
+    <string name="orderKeyLabel">Order key:</string>
     <string name="customer_name">customer name</string>
     <string name="order_id">order id</string>
     <string name="packBtnTxt">Ingepakt</string>
-    <string name="orderLabel">Order:</string>
+    <string name="orderLabel">Order key:</string>
+    <string name="login_email">E-mail...</string>
+    <string name="login_password">Wachtwoord...</string>
+    <string name="login_btn">Login</string>
 </resources>

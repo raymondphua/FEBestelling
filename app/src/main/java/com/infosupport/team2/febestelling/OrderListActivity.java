@@ -13,18 +13,19 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.infosupport.team2.febestelling.adapter.ListOrderAdapter;
 import com.infosupport.team2.febestelling.model.Order;
 import com.infosupport.team2.febestelling.util.AppSingleton;
 import com.infosupport.team2.febestelling.util.JsonUtils;
+
 import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +36,6 @@ import java.util.Map;
  */
 
 public class OrderListActivity extends ListActivity {
-
-    TextView statusLabel, statusState;
 
     ProgressDialog progressDialog;
     private static final String TAG = "OrderListActivity";
@@ -85,7 +84,6 @@ public class OrderListActivity extends ListActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
                         LayoutInflater li = LayoutInflater.from(OrderListActivity.this);
 
                         listView = (ListView) findViewById(android.R.id.list);
@@ -99,6 +97,7 @@ public class OrderListActivity extends ListActivity {
 
                                 Order item = (Order) parent.getAdapter().getItem(position);
                                 intent1.putExtra("orderId", item.getId());
+                                intent1.putExtra("orderKey", item.getOrderKey());
                                 intent1.putExtra("customerName", item.getCustomer().getName());
                                 intent1.putExtra("status", status);
                                 startActivity(intent1);
@@ -142,8 +141,22 @@ public class OrderListActivity extends ListActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                progressDialog.hide();
+                try {
+                    if (error.networkResponse == null || error.networkResponse.statusCode == 500) {
+                        toastMessage("Momenteel kan het systeem de bestellingen niet ophalen.");
+                        progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 403) {
+                        toastMessage("U heeft niet de juiste rechten.");
+                        progressDialog.hide();
+                    } else if (error.networkResponse.statusCode == 401){
+                        toastMessage("uw inlog gegevens kloppen niet.");
+                        progressDialog.hide();
+                        goToLogin();
+                    }
+                } catch (Exception e) {
+                    Log.w(e.getMessage(), e);
+                    progressDialog.hide();
+                }
             }
         }){
             @Override
@@ -157,6 +170,15 @@ public class OrderListActivity extends ListActivity {
         };
 
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(orderRequestList, REQUEST_TAG);
+    }
+
+    public void toastMessage(String txt) {
+        Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
+    }
+
+    public void goToLogin() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 }
 
