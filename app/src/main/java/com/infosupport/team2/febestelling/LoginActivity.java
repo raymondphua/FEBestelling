@@ -92,6 +92,7 @@ public class LoginActivity extends Activity {
 
     /**
      * Make the authentication url
+     *
      * @param email
      * @param password
      * @return
@@ -106,6 +107,7 @@ public class LoginActivity extends Activity {
 
     /**
      * Get authentication from server
+     *
      * @param url
      */
     public void authenticateApp(String url) {
@@ -177,6 +179,7 @@ public class LoginActivity extends Activity {
 
     /**
      * Give feedback message to user
+     *
      * @param txt
      */
     public void toastMessage(String txt) {

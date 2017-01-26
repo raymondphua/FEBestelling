@@ -1,5 +1,7 @@
 package com.infosupport.team2.febestelling.util;
 
+import android.util.Log;
+
 import com.infosupport.team2.febestelling.model.Customer;
 import com.infosupport.team2.febestelling.model.Order;
 import com.infosupport.team2.febestelling.model.Product;
@@ -27,7 +29,7 @@ public class JsonUtils {
                 Order order = new Order();
                 order.setId(result.getString("id"));
 
-                if(!result.isNull("customer")) {
+                if (!result.isNull("customer")) {
                     order.setCustomer(parseCustomerObject(result.getJSONObject("customer")));
                     order.setDate(result.getString("orderDate"));
 
@@ -37,7 +39,7 @@ public class JsonUtils {
 
             return orders;
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.w(e.getMessage(), e);
         }
         return null;
     }
@@ -63,7 +65,7 @@ public class JsonUtils {
             return products;
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.w(e.getMessage(), e);
         }
         return null;
     }
@@ -76,7 +78,7 @@ public class JsonUtils {
                 statuses.add(jsonArray.getString(i));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.w(e.getMessage(), e);
         }
 
         return statuses;
