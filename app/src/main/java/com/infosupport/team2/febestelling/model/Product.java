@@ -20,8 +20,17 @@ public class Product implements Serializable {
     private String supplierProductId;
     private String cName;
     private int quantity;
+    private String productKey;
 
     public Product() {
+    }
+
+    public String getProductKey() {
+        return productKey;
+    }
+
+    public void setProductKey(String productKey) {
+        this.productKey = productKey;
     }
 
     public int getQuantity() {

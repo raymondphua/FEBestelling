@@ -15,6 +15,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 public class Order implements Serializable{
 
     private String id;
+    private String orderKey;
     private double shoppingFee;
     private double totalPrice;
     private Customer customer;
@@ -24,6 +25,14 @@ public class Order implements Serializable{
     private String date;
 
     public Order() {
+    }
+
+    public String getOrderKey() {
+        return orderKey;
+    }
+
+    public void setOrderKey(String orderKey) {
+        this.orderKey = orderKey;
     }
 
     public String getDate() {

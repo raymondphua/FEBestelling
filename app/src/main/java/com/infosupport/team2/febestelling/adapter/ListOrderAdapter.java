@@ -63,12 +63,12 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
         Order item = getItem(position);
 
         if (item != null) {
-            TextView orderId = (TextView) view.findViewById(R.id.order_id);
+            TextView orderKey = (TextView) view.findViewById(R.id.order_key);
             TextView customerName = (TextView) view.findViewById(R.id.customer_name);
             TextView orderDate = (TextView) view.findViewById(R.id.orderDatum);
 
-            if (orderId != null) {
-                orderId.setText(item.getId().toString());
+            if (orderKey != null) {
+                orderKey.setText(item.getOrderKey());
             }
             if (customerName != null) {
                 customerName.setText(item.getCustomer().getName());
@@ -111,7 +111,7 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
                     for (Order o : origOrderList) {
 
                         if (isMatch(o, constraint)) {
-                            System.out.println("id: " + o.getId());
+                            System.out.println("key: " + o.getOrderKey());
                             filteredOrderList.add(o);
                         }
 
@@ -154,7 +154,7 @@ public class ListOrderAdapter extends ArrayAdapter<Order> implements Filterable{
 
     public Boolean isMatch(Order order, CharSequence constraint) {
         Pattern p = Pattern.compile(".*" + constraint.toString()  + ".*");
-        Matcher m = p.matcher(order.getId());
+        Matcher m = p.matcher(order.getOrderKey());
         return m.matches();
     }
 }
