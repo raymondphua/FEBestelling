@@ -97,6 +97,7 @@ public class OrderListActivity extends ListActivity {
 
                                 Order item = (Order) parent.getAdapter().getItem(position);
                                 intent1.putExtra("orderId", item.getId());
+                                intent1.putExtra("orderKey", item.getOrderKey());
                                 intent1.putExtra("customerName", item.getCustomer().getName());
                                 intent1.putExtra("status", status);
                                 startActivity(intent1);

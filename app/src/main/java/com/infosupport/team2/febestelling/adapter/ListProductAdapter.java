@@ -59,6 +59,7 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
             final ImageView productImage = (ImageView) view.findViewById(R.id.product_details_image);
             TextView productName = (TextView) view.findViewById(R.id.product_details_product_name);
             TextView productQuantity = (TextView) view.findViewById(R.id.product_details_amount);
+            TextView productKey = (TextView) view.findViewById(R.id.product_details_product_key);
             checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 
             if (!status.equals("BESTELD")) {
@@ -79,7 +80,6 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
                 }
             });
 
-            // TODO: productImage needs to map here too
             if (productImage != null) {
                 String REQUEST_TAG = "com.infosupport.team2.imageRequest";
                 ImageRequest imageRequest = new ImageRequest(product.getImgUrl(), new Response.Listener<Bitmap>() {
@@ -103,6 +103,9 @@ public class ListProductAdapter extends ArrayAdapter<Product> {
 
             if (productName != null) {
                 productName.setText(product.getName());
+            }
+            if (productKey != null) {
+                productKey.setText(product.getProductKey());
             }
         }
 

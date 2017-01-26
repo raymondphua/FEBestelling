@@ -32,7 +32,7 @@ public class JsonUtils {
                 if (!result.isNull("customer")) {
                     order.setCustomer(parseCustomerObject(result.getJSONObject("customer")));
                     order.setDate(result.getString("orderDate"));
-
+                    order.setOrderKey(result.getString("orderKey"));
                     orders.add(order);
                 }
             }
@@ -58,6 +58,7 @@ public class JsonUtils {
                 product.setImgUrl(result.getString("imgUrl"));
                 product.setName(result.getString("name"));
                 product.setQuantity(result.getInt("quantity"));
+                product.setProductKey(result.getString("productKey"));
 
                 products.add(product);
             }
@@ -89,6 +90,7 @@ public class JsonUtils {
 
         customer.setId(customerObject.getString("id"));
         customer.setName(customerObject.getString("name"));
+
 
         return customer;
     }

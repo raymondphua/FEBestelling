@@ -28,6 +28,13 @@
             android:weightSum="1">
 
             <TextView
+                android:text="Product key"
+                android:textColor="@color/text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/product_details_product_key"
+                android:textSize="14sp" />
+            <TextView
                 android:text="Name"
                 android:textColor="@color/text_color"
                 android:layout_width="match_parent"
